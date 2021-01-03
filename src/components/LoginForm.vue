@@ -1,36 +1,32 @@
 <template>
     <div>
         <form @submit.prevent = "handleSignUp">
-            <input type="text" required placeholder="display name" v-model="displayName">
             <input type="email" required placeholder="email" v-model="email">
             <input type="password" required placeholder="password" v-model="password">
             <div class="error">{{ error }}</div>
-            <button>Sign Up</button>
+            <button>Log In</button>
         </form>
     </div>
 </template>
 
 <script>
 import { ref } from 'vue'
-import  useSignup from '../composables/signup'
-import { useRouter } from 'vue-router'
+import useLogin from '../composables/login'
 export default {
-    setup(props , context){
-
-        const { error , signup } = useSignup()
-        const router = useRouter()
-        const displayName = ref('')
+    setup(props, context){
         const email = ref('')
         const password = ref('')
 
+        const { error , login } = useLogin()
+
         const handleSignUp = async () => {
-            await signup(email.value , password.value , displayName.value)
+            await login(email.value , password. value)
             if(!error.value){
-                context.emit('signup')
+                context.emit('login')
             }
         }
 
-        return { displayName , email , password , handleSignUp  , error}
+        return { email , password , handleSignUp , error }
     }
 }
 </script>
